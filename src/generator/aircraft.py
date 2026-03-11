@@ -1,5 +1,7 @@
 import random
 
+from src.generator.config import AIRCRAFT_PERFORMANCE
+
 
 class Aircraft:
     def __init__(self, tail_number, aircraft_type, initial_location, initial_fuel):
@@ -11,7 +13,10 @@ class Aircraft:
         self.last_landed_at = None
         self.current_dep_time = None
         self.current_fuel = initial_fuel
-        self.fuel_burn_rate = 2500
+
+        specs = AIRCRAFT_PERFORMANCE.get(aircraft_type, {})
+        self.max_fuel_capacity = specs.get("max_fuel", 50000)
+        self.fuel_burn_rate = specs.get("burn_rate", 3000)
 
     def take_off(self, destination, dep_time):
         if destination == self.current_location:
@@ -74,3 +79,6 @@ class Aircraft:
                 "Normal" if self.total_hours < 1000 else "Check Required"
             ),
         }
+
+    def refuel(self, fuel):
+        self.current_fuel += fuel
