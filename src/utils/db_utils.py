@@ -29,11 +29,10 @@ def get_db_connection():
         return None
 
 
-def fetch_active_fleet():
+def fetch_fleet():
     query = """
-        SELECT tail_number, aircraft_type, total_flight_hours
-        FROM dim_aircraft_fleet
-        WHERE status = 'Active';
+        SELECT tail_number, aircraft_type, total_flight_hours, status
+        FROM dim_aircraft_fleet;
     """
 
     conn = get_db_connection()
@@ -47,6 +46,6 @@ def fetch_active_fleet():
 
 
 if __name__ == "__main__":
-    fleet = fetch_active_fleet()
+    fleet = fetch_fleet()
     for plane in fleet:
         print(f"Find plane: {plane['tail_number']} ({plane['aircraft_type']})")
