@@ -9,3 +9,12 @@ SIMULATION_SETTINGS = {
     "fuel_safety_margin": 5000,
     "time_step_minutes": 15,
 }
+
+ROUTES = [
+    # (dep, arr, distance)
+    ("TPE", "NRT", 2100),
+    ("NRT", "TPE", 2100),
+    ("TPE", "SIN", 3200),
+    ("SIN", "TPE", 3200),
+    ("SFO", "TPE", 10000),
+]

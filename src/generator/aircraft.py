@@ -1,5 +1,7 @@
 import random
 
+from datetime import timedelta
+
 from src.generator.config import AIRCRAFT_PERFORMANCE
 
 
@@ -14,12 +16,14 @@ class Aircraft:
         self.current_dep_time = None
         self.current_fuel = initial_fuel
         self.last_origin = initial_location
+        self.next_arrival_time = None
+        self.next_destination = None
 
         specs = AIRCRAFT_PERFORMANCE.get(aircraft_type, {})
         self.max_fuel_capacity = specs.get("max_fuel", 50000)
         self.fuel_burn_rate = specs.get("burn_rate", 3000)
 
-    def take_off(self, destination, dep_time):
+    def take_off(self, destination, dep_time, duration_hours):
         if destination == self.current_location:
             print(f"Error: {self.tail_number} already at {destination}")
             return False
@@ -39,6 +43,8 @@ class Aircraft:
         self.current_dep_time = dep_time
         self.is_flying = True
         self.current_location = "IN_FLIGHT"
+        self.next_destination = destination
+        self.next_arrival_time = dep_time + timedelta(hours=duration_hours)
         return True
 
     def land(self, destination, arr_time):
@@ -60,6 +66,8 @@ class Aircraft:
         self.total_hours += duration
         self.is_flying = False
         self.last_landed_at = arr_time
+        self.next_destination = None
+        self.next_arrival_time = None
 
         print(f"{self.tail_number} landed. Burned: {burn_fuel:.1f}kg")
         return event_data
