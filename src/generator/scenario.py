@@ -69,6 +69,4 @@ if __name__ == "__main__":
                 else:
                     plane.refuel()
 
-            current_sim_time += timedelta(
-                minutes=SIMULATION_SETTINGS["time_step_minutes"]
-            )
+        current_sim_time += time_step
